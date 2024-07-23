@@ -25,7 +25,9 @@ dotenv_file = BASE_DIR / '.env.local'
 if path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
-DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE', 'False') == 'True'
+#DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE', 'False') == 'True'
+
+DEVELOPMENT_MODE = True
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -34,7 +36,8 @@ DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE', 'False') == 'True'
 SECRET_KEY = getenv('DJANGO_SECRET_KEY', get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv('DEBUG', 'False') == 'True'
+#DEBUG = getenv('DEBUG', 'False') == 'True'
+DEBUG=True 
 
 #ALLOWED_HOSTS = getenv('DJANGO_ALLOWED_HOSTS',
 #                      'localhost:3000' ).split(',')
@@ -130,15 +133,17 @@ if DEVELOPMENT_MODE is True:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+""" elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if getenv('DATABASE_URL', None) is None:
         raise Exception('DATABASE_URL environment variable not defined')
     DATABASES = {
         'default': dj_database_url.parse(getenv('DATABASE_URL')),
-    }
+    } """
 
+
+# NOT USE FOR NOW!
 # Email settings
-
+#-----------------------------------------------------------------------------
 EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_FROM_EMAIL = getenv('AWS_SES_FROM_EMAIL')
 
@@ -148,9 +153,10 @@ AWS_SES_REGION_NAME = getenv('AWS_SES_REGION_NAME')
 AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
 AWS_SES_FROM_EMAIL = getenv('AWS_SES_FROM_EMAIL')
 USE_SES_V2 = True
+#------------------------------------------------------------------------------
 
-DOMAIN = getenv('DOMAIN')
-SITE_NAME = 'Full Auth'
+DOMAIN = 'localhost:3000' #getenv('DOMAIN') #nrxtjs
+SITE_NAME = 'Deeper'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -266,8 +272,8 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:8000",  # Buraya Next.js uygulamanızın URL'sini ekleyin
+    "http://localhost:3000", # Next.js uygulamanızın URL'si 
+    "http://localhost:8000",  
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -292,7 +298,7 @@ AUTH_USER_MODEL = 'users.UserAccount'
 
 
 
-# E-posta ayarlari
+# E-posta settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 
